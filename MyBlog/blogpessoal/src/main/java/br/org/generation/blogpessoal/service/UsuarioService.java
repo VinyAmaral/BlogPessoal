@@ -38,23 +38,13 @@ public class UsuarioService {
 	public Optional <Usuario> cadastrarUsuario(Usuario usuario) {
 		
 		
-		/**
-		 * Lança uma Exception do tipo Response Status Bad Request se o usuário já existir
-		 */
 		if(usuarioRepository.findByUsuario(usuario.getUsuario()).isPresent())
 			throw new ResponseStatusException(
 				HttpStatus.BAD_REQUEST, "Usuário já existe!", null);
 		
-		/**
-		 * Calcula a idade (em anos) através do método between, da Classe Period
-		 */
 		
 		 int idade = Period.between(usuario.getDataNascimento(), LocalDate.now()).getYears();
 		
-		/**
-		 * Verifica se a iade é menor de 18. Caso positivo,
-		 * Lança uma Exception do tipo Response Status Bad Request 
-		 */
 		
 		 if(idade < 18)
 			throw new ResponseStatusException(
@@ -72,34 +62,18 @@ public class UsuarioService {
 	
 	public Optional <Usuario> atualizarUsuario(Usuario usuario){
 		
-		/**
-		 * Checa pelo Id se o usuário existe
-		 */
 		if(usuarioRepository.findById(usuario.getId()).isPresent()) {
 			
-			/**
-			 * Checa se o usuário já existe antes de atualizar
-			 */
 			 
 			Optional<Usuario> buscaUsuario = usuarioRepository.findByUsuario(usuario.getUsuario());
 			
 			if( buscaUsuario.isPresent() ){
 
-				/**
-				 * Checa se o usuário (email) pertence ao mesmo usuário ou se pertence
-				 * a outro usuário através do Id.
-				 * 
-				 * Caso o usuário seja encontrado na atualização é preciso ter certeza
-				 * que ele não esteja cadastrado em outro usuário.
-				 */
 				if(buscaUsuario.get().getId() != usuario.getId())
 					throw new ResponseStatusException(
 						HttpStatus.BAD_REQUEST, "Usuário já existe!", null);
 			}
 
-			/**
-			 * Checa a data de nascimento
-			 */
 
 			int idade = Period.between(usuario.getDataNascimento(), LocalDate.now()).getYears();
 			
@@ -115,10 +89,6 @@ public class UsuarioService {
 			return Optional.of(usuarioRepository.save(usuario));
 		
 		}else {
-			
-			/**
-			 * Se não existir lança uma Exception do tipo Response Status Not Found
-			 */
 
 			throw new ResponseStatusException(
 					HttpStatus.NOT_FOUND, "Usuário não encontrado!", null);
@@ -149,9 +119,6 @@ public class UsuarioService {
 			}
 		}
 		
-		/**
-		 * Lança uma Exception do tipo Response Status Unauthorized
-		*/
 		
 		throw new ResponseStatusException(
 				HttpStatus.UNAUTHORIZED, "Usuário ou senha inválidos!", null);

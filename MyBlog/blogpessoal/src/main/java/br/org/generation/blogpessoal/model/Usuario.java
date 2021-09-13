@@ -37,10 +37,6 @@ public class Usuario {
 	@Size(min = 8, message = "A Senha deve ter no mínimo 8 caracteres")
 	private String senha;
 	
-	/**
-	 * Novo Atributo - Data de Nascimento
-	 * Não esquecer de Gerar os métodos Get e Set
-	 */
 	
 	@Column(name = "data_nascimento")
 	@JsonFormat(pattern = "yyyy-MM-dd")
